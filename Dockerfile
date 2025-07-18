@@ -20,7 +20,6 @@ RUN \
   else echo "Lockfile not found." && exit 1; \
   fi
 
-
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
@@ -54,8 +53,8 @@ ENV NODE_ENV production
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
-# Remove this line if you do not have this folder
-COPY --from=builder /app/public ./public
+# Copy public folder only if it exists
+COPY --from=builder /app/public* ./public 2>/dev/null || mkdir -p ./public
 
 # Set the correct permission for prerender cache
 RUN mkdir .next
