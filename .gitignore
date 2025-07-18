@@ -48,3 +48,10 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+.pnp
+
+# Lock files (mantener solo uno)
+package-lock.json
+yarn.lock
+# pnpm-lock.yaml - mantener este
