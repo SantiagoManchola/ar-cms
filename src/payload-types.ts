@@ -195,9 +195,33 @@ export interface Noticia {
  */
 export interface Servicio {
   id: string;
-  title: string;
-  Descripcion?: string | null;
+  nombre: string;
+  /**
+   * URL amigable para el servicio (ej: "diseno-web")
+   */
+  slug: string;
+  descripcion: string;
+  titulo_banner: string;
+  descripcion_banner: string;
+  imagen_banner: string | Media;
+  areas_especializacion?:
+    | {
+        area: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Para mantener compatibilidad con formato anterior
+   */
   icon?: string | null;
+  /**
+   * Para mantener compatibilidad con formato anterior
+   */
+  title?: string | null;
+  /**
+   * Para mantener compatibilidad con formato anterior
+   */
+  href?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -346,9 +370,21 @@ export interface NoticiasSelect<T extends boolean = true> {
  * via the `definition` "servicios_select".
  */
 export interface ServiciosSelect<T extends boolean = true> {
-  title?: T;
-  Descripcion?: T;
+  nombre?: T;
+  slug?: T;
+  descripcion?: T;
+  titulo_banner?: T;
+  descripcion_banner?: T;
+  imagen_banner?: T;
+  areas_especializacion?:
+    | T
+    | {
+        area?: T;
+        id?: T;
+      };
   icon?: T;
+  title?: T;
+  href?: T;
   updatedAt?: T;
   createdAt?: T;
 }

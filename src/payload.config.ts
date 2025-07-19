@@ -32,6 +32,27 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
+  // Configuración del servidor para URLs completas
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000',
+  cors: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'https://localhost:3000',
+    'https://localhost:3001',
+    'https://arcompany-delta.vercel.app',
+    // Agrega aquí tu dominio de producción cuando despliegues
+    process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
+    // Permite cualquier dominio en desarrollo (solo para testing)
+    ...(process.env.NODE_ENV === 'development' ? ['*'] : []),
+  ].filter(Boolean),
+  csrf: [
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'https://localhost:3000',
+    'https://localhost:3001',
+    'https://arcompany-delta.vercel.app',
+    process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
+  ].filter(Boolean),
   sharp,
   plugins: [
     payloadCloudPlugin(),
