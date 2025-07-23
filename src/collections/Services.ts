@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 export interface ServiceAPI {
+  id?: number
   nombre: string
   icon: string
   slug: string

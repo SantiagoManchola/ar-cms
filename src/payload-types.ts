@@ -210,6 +210,11 @@ export interface Servicio {
         id?: string | null;
       }[]
     | null;
+
+  /**
+   * Para mantener compatibilidad con formato anterior
+   */
+  icon?: string | null;
   updatedAt: string;
   createdAt: string;
 }
