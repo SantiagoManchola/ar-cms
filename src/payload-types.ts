@@ -210,18 +210,6 @@ export interface Servicio {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Para mantener compatibilidad con formato anterior
-   */
-  icon?: string | null;
-  /**
-   * Para mantener compatibilidad con formato anterior
-   */
-  title?: string | null;
-  /**
-   * Para mantener compatibilidad con formato anterior
-   */
-  href?: string | null;
   updatedAt: string;
   createdAt: string;
 }

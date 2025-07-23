@@ -1,17 +1,15 @@
 import type { CollectionConfig } from 'payload'
 
 export interface ServiceAPI {
-  id?: number
   nombre: string
+  icon: string
   slug: string
+  descripcion_general: string
   descripcion: string
   titulo_banner: string
   descripcion_banner: string
   imagen_banner: string
   areas_especializacion: string[]
-  icon?: string
-  title?: string
-  href?: string
 }
 
 export const Services: CollectionConfig = {
@@ -34,6 +32,16 @@ export const Services: CollectionConfig = {
       label: 'Nombre del Servicio',
     },
     {
+      name: 'icon',
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
+      label: 'Icono del Servicio (Imagen)',
+      admin: {
+        description: 'Sube una imagen para el icono del servicio',
+      },
+    },
+    {
       name: 'slug',
       type: 'text',
       required: true,
@@ -44,13 +52,17 @@ export const Services: CollectionConfig = {
       },
     },
     {
+      name: 'descripcion_general',
+      type: 'textarea',
+      required: true,
+      label: 'Descripción General del Servicio',
+    },
+    {
       name: 'descripcion',
       type: 'textarea',
       required: true,
-      label: 'Descripción del Servicio',
+      label: 'Descripción Detallada del Servicio',
     },
-
-    // Campos del banner
     {
       name: 'titulo_banner',
       type: 'text',
@@ -60,8 +72,8 @@ export const Services: CollectionConfig = {
     {
       name: 'descripcion_banner',
       type: 'textarea',
-      required: true,
-      label: 'Descripción del Banner',
+      required: false,
+      label: 'Descripción del Banner (Opcional)',
     },
     {
       name: 'imagen_banner',
@@ -86,32 +98,6 @@ export const Services: CollectionConfig = {
           label: 'Área',
         },
       ],
-    },
-
-    // Campos de compatibilidad (opcionales)
-    {
-      name: 'icon',
-      type: 'text',
-      label: 'Icono (opcional)',
-      admin: {
-        description: 'Para mantener compatibilidad con formato anterior',
-      },
-    },
-    {
-      name: 'title',
-      type: 'text',
-      label: 'Título (opcional)',
-      admin: {
-        description: 'Para mantener compatibilidad con formato anterior',
-      },
-    },
-    {
-      name: 'href',
-      type: 'text',
-      label: 'Enlace (opcional)',
-      admin: {
-        description: 'Para mantener compatibilidad con formato anterior',
-      },
     },
   ],
 }
