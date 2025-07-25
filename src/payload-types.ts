@@ -150,7 +150,9 @@ export interface User {
  */
 export interface Media {
   id: string;
-  alt: string;
+  alt?: string | null;
+  cloudinaryPublicId?: string | null;
+  cloudinaryUrl?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -162,6 +164,32 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    tablet?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -170,6 +198,17 @@ export interface Media {
 export interface Noticia {
   id: string;
   title: string;
+  /**
+   * URL slug for the news article (e.g., "understanding-digital-legal-challenges")
+   */
+  slug: string;
+  /**
+   * Short description/excerpt for the news card
+   */
+  description: string;
+  /**
+   * Full content of the news article
+   */
   contenido: {
     root: {
       type: string;
@@ -185,6 +224,13 @@ export interface Noticia {
     };
     [k: string]: unknown;
   };
+  /**
+   * Featured image for the news card
+   */
+  backgroundImage: string | Media;
+  /**
+   * Publication date
+   */
   publishedAt: string;
   updatedAt: string;
   createdAt: string;
@@ -197,12 +243,17 @@ export interface Servicio {
   id: string;
   nombre: string;
   /**
+   * Sube una imagen para el icono del servicio
+   */
+  icon: string | Media;
+  /**
    * URL amigable para el servicio (ej: "diseno-web")
    */
   slug: string;
+  descripcion_general: string;
   descripcion: string;
   titulo_banner: string;
-  descripcion_banner: string;
+  descripcion_banner?: string | null;
   imagen_banner: string | Media;
   areas_especializacion?:
     | {
@@ -210,11 +261,6 @@ export interface Servicio {
         id?: string | null;
       }[]
     | null;
-
-  /**
-   * Para mantener compatibilidad con formato anterior
-   */
-  icon?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -335,6 +381,8 @@ export interface UsersSelect<T extends boolean = true> {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  cloudinaryPublicId?: T;
+  cloudinaryUrl?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -346,6 +394,40 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        tablet?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -353,7 +435,10 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface NoticiasSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
+  description?: T;
   contenido?: T;
+  backgroundImage?: T;
   publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -364,7 +449,9 @@ export interface NoticiasSelect<T extends boolean = true> {
  */
 export interface ServiciosSelect<T extends boolean = true> {
   nombre?: T;
+  icon?: T;
   slug?: T;
+  descripcion_general?: T;
   descripcion?: T;
   titulo_banner?: T;
   descripcion_banner?: T;
@@ -375,9 +462,6 @@ export interface ServiciosSelect<T extends boolean = true> {
         area?: T;
         id?: T;
       };
-  icon?: T;
-  title?: T;
-  href?: T;
   updatedAt?: T;
   createdAt?: T;
 }

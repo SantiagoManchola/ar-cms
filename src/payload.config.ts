@@ -1,4 +1,3 @@
-// storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
@@ -32,7 +31,6 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  // Configuración del servidor para URLs completas
   serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000',
   cors: [
     'http://localhost:3000',
@@ -40,10 +38,10 @@ export default buildConfig({
     'https://localhost:3000',
     'https://localhost:3001',
     'https://arcompany-delta.vercel.app',
-    // Agrega aquí tu dominio de producción cuando despliegues
+    'https://ar-cms-cs94.onrender.com',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
-    // Permite cualquier dominio en desarrollo (solo para testing)
-    ...(process.env.NODE_ENV === 'development' ? ['*'] : []),
+    // Para desarrollo local
+    ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://127.0.0.1:3000'] : []),
   ].filter(Boolean),
   csrf: [
     'http://localhost:3000',
@@ -51,11 +49,13 @@ export default buildConfig({
     'https://localhost:3000',
     'https://localhost:3001',
     'https://arcompany-delta.vercel.app',
+    'https://ar-cms-cs94.onrender.com',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
+    // Para desarrollo local
+    ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://127.0.0.1:3000'] : []),
   ].filter(Boolean),
   sharp,
   plugins: [
     payloadCloudPlugin(),
-    // storage-adapter-placeholder
   ],
 })
