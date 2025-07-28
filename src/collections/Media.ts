@@ -59,23 +59,33 @@ export const Media: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, req, operation }) => {
-        if (operation === 'create' || operation === 'update') {
-          const serverUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL
-          const imagePath = `${serverUrl}/media/${doc.filename}`
+        // Solo ejecutar en creación o actualización, y si hay un archivo
+        if ((operation === 'create' || operation === 'update') && doc.filename) {
+          try {
+            const serverUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
+            const imagePath = `${serverUrl}/media/${doc.filename}`
+            
+            // Crear un public_id único
+            const publicId = `arcompany-media/${doc.id}-${doc.filename.split('.')[0]}`
 
-          const cloudinaryResult = await uploadToCloudinary(imagePath, doc.filename)
+            const cloudinaryResult = await uploadToCloudinary(imagePath, publicId)
 
-          if (cloudinaryResult) {
-            const cloudinaryUrl = getCloudinaryUrl(cloudinaryResult.public_id)
+            if (cloudinaryResult) {
+              const cloudinaryUrl = getCloudinaryUrl(cloudinaryResult.public_id)
 
-            await req.payload.update({
-              collection: 'media',
-              id: doc.id,
-              data: {
-                cloudinaryPublicId: cloudinaryResult.public_id,
-                cloudinaryUrl: cloudinaryUrl,
-              },
-            })
+              // Actualizar el documento con los datos de Cloudinary
+              await req.payload.update({
+                collection: 'media',
+                id: doc.id,
+                data: {
+                  cloudinaryPublicId: cloudinaryResult.public_id,
+                  cloudinaryUrl: cloudinaryUrl,
+                },
+              })
+            }
+          } catch (error) {
+            console.error('Error uploading to Cloudinary in hook:', error)
+            // No lanzar el error para evitar que falle toda la operación
           }
         }
       },

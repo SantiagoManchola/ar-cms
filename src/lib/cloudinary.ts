@@ -9,14 +9,18 @@ cloudinary.config({
 
 export const uploadToCloudinary = async (fileUrl: string, publicId: string) => {
   try {
+    console.log('Uploading to Cloudinary:', { fileUrl, publicId })
+    
     const result = await cloudinary.uploader.upload(fileUrl, {
-      folder: 'arcompany-media',
       public_id: publicId,
       resource_type: 'auto',
       transformation: [
         { quality: 'auto', fetch_format: 'auto' }
       ],
+      overwrite: true,
     })
+    
+    console.log('Cloudinary upload successful:', result.public_id)
     return result
   } catch (error) {
     console.error('Error uploading to Cloudinary:', error)
@@ -42,6 +46,7 @@ export const getCloudinaryUrl = (publicId: string, options = {}) => {
     crop: 'fill',
     format: 'webp',
     quality: 'auto',
+    secure: true,
     ...options,
   })
 }
