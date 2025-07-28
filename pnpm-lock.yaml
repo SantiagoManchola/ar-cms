@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@payloadcms/db-mongodb':
-        specifier: 3.46.0
-        version: 3.46.0(@aws-sdk/credential-providers@3.848.0)(payload@3.48.0(graphql@16.11.0)(typescript@5.7.3))
+        specifier: 3.48.0
+        version: 3.48.0(@aws-sdk/credential-providers@3.848.0)(payload@3.48.0(graphql@16.11.0)(typescript@5.7.3))
       '@payloadcms/next':
         specifier: 3.46.0
         version: 3.46.0(@types/react@19.1.0)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.3.2(@babel/core@7.28.0)(@playwright/test@1.50.0)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(sass@1.77.4))(payload@3.48.0(graphql@16.11.0)(typescript@5.7.3))(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(typescript@5.7.3)
@@ -1174,10 +1174,10 @@ packages:
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
 
-  '@payloadcms/db-mongodb@3.46.0':
-    resolution: {integrity: sha512-lg2r9eRDDr80qjbC5n8nj/LQGim4QrtLWxfqS0Kz7EcmQj5I04wGzk6cHJGYEDGy7ddWu+hwoSNaNwaX3Amy0Q==}
+  '@payloadcms/db-mongodb@3.48.0':
+    resolution: {integrity: sha512-BvSs5x4/2I56fiYT7rC7W/623O9bfJXhqJrxlW2kUWUv1y8aZfrA9JLp6x7Vn0kTc3xnEqukgL/2qQ1GtUxF0A==}
     peerDependencies:
-      payload: 3.46.0
+      payload: 3.48.0
 
   '@payloadcms/email-nodemailer@3.46.0':
     resolution: {integrity: sha512-Gs/Ga81idRM6LEV/wyu+ydfyfe3ADOcMfNkhw8CSYOzGoL732VvvMYyHGNLjpUdFbiyogj42fPDkJwbI4in10Q==}
@@ -5583,7 +5583,7 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@payloadcms/db-mongodb@3.46.0(@aws-sdk/credential-providers@3.848.0)(payload@3.48.0(graphql@16.11.0)(typescript@5.7.3))':
+  '@payloadcms/db-mongodb@3.48.0(@aws-sdk/credential-providers@3.848.0)(payload@3.48.0(graphql@16.11.0)(typescript@5.7.3))':
     dependencies:
       mongoose: 8.15.1(@aws-sdk/credential-providers@3.848.0)
       mongoose-paginate-v2: 1.8.5
