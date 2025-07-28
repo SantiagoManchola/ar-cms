@@ -13,7 +13,7 @@ export const News: CollectionConfig = {
   },
   fields: [
     {
-      name: 'title',
+      name: 'titlee',
       type: 'text',
       required: true,
     },
