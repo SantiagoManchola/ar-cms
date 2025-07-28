@@ -15,14 +15,6 @@ import { Properties } from './collections/Properties'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-// Debug: Verificar variables de entorno al inicio
-console.log('=== ENVIRONMENT VARIABLES DEBUG ===')
-console.log('CLOUDINARY_CLOUD_NAME:', process.env.CLOUDINARY_CLOUD_NAME ? 'SET' : 'NOT SET')
-console.log('CLOUDINARY_API_KEY:', process.env.CLOUDINARY_API_KEY ? 'SET' : 'NOT SET')
-console.log('CLOUDINARY_API_SECRET:', process.env.CLOUDINARY_API_SECRET ? 'SET' : 'NOT SET')
-console.log('PAYLOAD_PUBLIC_SERVER_URL:', process.env.PAYLOAD_PUBLIC_SERVER_URL)
-console.log('===================================')
-
 export default buildConfig({
   admin: {
     user: Users.slug,
