@@ -199,7 +199,7 @@ export interface Noticia {
   id: string;
   title: string;
   /**
-   * URL slug for the news article (e.g., "understanding-digital-legal-challenges")
+   * URL slug for the news article (e.g., "understanding-digital-legal-challengesss")
    */
   slug: string;
   /**

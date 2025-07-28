@@ -13,7 +13,7 @@ export const News: CollectionConfig = {
   },
   fields: [
     {
-      name: 'titlee',
+      name: 'title',
       type: 'text',
       required: true,
     },
@@ -23,7 +23,7 @@ export const News: CollectionConfig = {
       required: true,
       unique: true,
       admin: {
-        description: 'URL slug for the news article (e.g., "understanding-digital-legal-challenges")',
+        description: 'URL slug for the news article (e.g., "understanding-digital-legal-challengesss")',
       },
     },
     {
