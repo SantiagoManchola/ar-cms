@@ -59,33 +59,40 @@ export const Media: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, req, operation }) => {
-        // Solo ejecutar en creación o actualización, y si hay un archivo
-        if ((operation === 'create' || operation === 'update') && doc.filename) {
+        // Solo ejecutar en creación y si hay filename y no tiene cloudinaryUrl
+        if (operation === 'create' && doc.filename && !doc.cloudinaryUrl) {
           try {
+            console.log('Processing new image upload:', doc.filename)
+            
             const serverUrl = process.env.PAYLOAD_PUBLIC_SERVER_URL || 'http://localhost:3000'
             const imagePath = `${serverUrl}/media/${doc.filename}`
             
-            // Crear un public_id único
-            const publicId = `arcompany-media/${doc.id}-${doc.filename.split('.')[0]}`
+            // Crear un public_id más simple y único
+            const publicId = `${doc.id}`
+
+            console.log('Uploading to Cloudinary:', { imagePath, publicId })
 
             const cloudinaryResult = await uploadToCloudinary(imagePath, publicId)
 
-            if (cloudinaryResult) {
+            if (cloudinaryResult && cloudinaryResult.public_id) {
+              console.log('Cloudinary upload successful, updating document...')
+              
               const cloudinaryUrl = getCloudinaryUrl(cloudinaryResult.public_id)
 
-              // Actualizar el documento con los datos de Cloudinary
-              await req.payload.update({
+              // Actualizar sin triggear el hook de nuevo
+              await req.payload.db.updateOne({
                 collection: 'media',
-                id: doc.id,
+                where: { id: { equals: doc.id } },
                 data: {
                   cloudinaryPublicId: cloudinaryResult.public_id,
                   cloudinaryUrl: cloudinaryUrl,
                 },
               })
+              
+              console.log('Document updated with Cloudinary data')
             }
           } catch (error) {
-            console.error('Error uploading to Cloudinary in hook:', error)
-            // No lanzar el error para evitar que falle toda la operación
+            console.error('Error in Cloudinary upload hook:', error)
           }
         }
       },
