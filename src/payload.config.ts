@@ -1,5 +1,5 @@
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
+import { s3Storage } from '@payloadcms/storage-s3'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -40,7 +40,9 @@ export default buildConfig({
     'https://arcompany-delta.vercel.app',
     'https://ar-cms-cs94.onrender.com',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
-    ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://127.0.0.1:3000'] : []),
+    ...(process.env.NODE_ENV === 'development'
+      ? ['http://localhost:3000', 'http://127.0.0.1:3000']
+      : []),
   ].filter(Boolean),
   csrf: [
     'http://localhost:3000',
@@ -50,10 +52,25 @@ export default buildConfig({
     'https://arcompany-delta.vercel.app',
     'https://ar-cms-cs94.onrender.com',
     process.env.PAYLOAD_PUBLIC_SERVER_URL || '',
-    ...(process.env.NODE_ENV === 'development' ? ['http://localhost:3000', 'http://127.0.0.1:3000'] : []),
+    ...(process.env.NODE_ENV === 'development'
+      ? ['http://localhost:3000', 'http://127.0.0.1:3000']
+      : []),
   ].filter(Boolean),
   sharp,
   plugins: [
-    payloadCloudPlugin(),
+    s3Storage({
+      collections: {
+        media: true,
+      },
+      bucket: process.env.S3_BUCKET || '',
+      config: {
+        credentials: {
+          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
+          secretAccessKey: process.env.S3_SECRET || '',
+        },
+        region: 'auto',
+        endpoint: process.env.S3_ENDPOINT || '',
+      },
+    }),
   ],
 })
