@@ -15,6 +15,8 @@ export interface ServiceAPI {
 
 export const Services: CollectionConfig = {
   slug: 'servicios',
+  orderable: true,
+  defaultSort: 'order',
   admin: {
     useAsTitle: 'nombre',
   },

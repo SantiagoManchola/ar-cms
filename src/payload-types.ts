@@ -239,6 +239,7 @@ export interface Noticia {
  */
 export interface Servicio {
   id: string;
+  _order?: string | null;
   nombre: string;
   /**
    * Sube una imagen para el icono del servicio
@@ -444,6 +445,7 @@ export interface NoticiasSelect<T extends boolean = true> {
  * via the `definition` "servicios_select".
  */
 export interface ServiciosSelect<T extends boolean = true> {
+  _order?: T;
   nombre?: T;
   icon?: T;
   slug?: T;
