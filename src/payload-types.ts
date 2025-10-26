@@ -270,12 +270,77 @@ export interface Servicio {
 export interface Propiedade {
   id: string;
   title: string;
+  /**
+   * Identificador para la URL. Si lo dejas vacío se generará desde el título.
+   */
+  slug: string;
   description?: string | null;
+  /**
+   * Precio en COP
+   */
   price?: number | null;
+  operation?: ('VENTA' | 'ARRIENDO') | null;
+  type?: ('CASA' | 'APARTAMENTO' | 'LOCAL') | null;
+  city?: string | null;
+  /**
+   * Departamento
+   */
+  state?: string | null;
+  /**
+   * Barrio
+   */
+  neighborhood?: string | null;
+  address?: string | null;
+  /**
+   * m²
+   */
+  area?: number | null;
+  /**
+   * Alcobas
+   */
+  rooms?: number | null;
+  bathrooms?: number | null;
+  garages?: number | null;
+  estrato?: number | null;
+  /**
+   * Antigüedad (años)
+   */
+  years?: number | null;
+  /**
+   * Piso (solo apto)
+   */
+  floor?: number | null;
+  /**
+   * N° pisos (casa)
+   */
+  floors?: number | null;
+  /**
+   * Administración (COP)
+   */
+  adminFee?: number | null;
+  features?:
+    | {
+        feature: string;
+        id?: string | null;
+      }[]
+    | null;
+  highlighted?: boolean | null;
+  status?: ('DISPONIBLE' | 'RESERVADO' | 'VENDIDO' | 'ARRENDADO') | null;
+  /**
+   * Campo libre opcional (ej: “Bogotá, Cundinamarca”)
+   */
   location?: string | null;
   images?:
     | {
         image?: (string | null) | Media;
+        /**
+         * Texto alternativo (si quieres sobrescribir el alt del media)
+         */
+        alt?: string | null;
+        /**
+         * URL directa (opcional, si no subes media)
+         */
+        url?: string | null;
         id?: string | null;
       }[]
     | null;
@@ -469,13 +534,39 @@ export interface ServiciosSelect<T extends boolean = true> {
  */
 export interface PropiedadesSelect<T extends boolean = true> {
   title?: T;
+  slug?: T;
   description?: T;
   price?: T;
+  operation?: T;
+  type?: T;
+  city?: T;
+  state?: T;
+  neighborhood?: T;
+  address?: T;
+  area?: T;
+  rooms?: T;
+  bathrooms?: T;
+  garages?: T;
+  estrato?: T;
+  years?: T;
+  floor?: T;
+  floors?: T;
+  adminFee?: T;
+  features?:
+    | T
+    | {
+        feature?: T;
+        id?: T;
+      };
+  highlighted?: T;
+  status?: T;
   location?: T;
   images?:
     | T
     | {
         image?: T;
+        alt?: T;
+        url?: T;
         id?: T;
       };
   updatedAt?: T;
