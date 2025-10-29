@@ -27,7 +27,6 @@ export const Services: CollectionConfig = {
     delete: () => true,
   },
   fields: [
-    // Campos principales
     {
       name: 'nombre',
       type: 'text',

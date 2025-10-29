@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
+import { esTranslations } from '@payloadcms/translations/languages/es'
 import { Media } from './collections/Media'
 import { News } from './collections/News'
 import { Services } from './collections/Services'
@@ -20,6 +21,24 @@ export default buildConfig({
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
+    },
+  },
+  
+  i18n: {
+    fallbackLanguage: 'es',
+    supportedLanguages: {
+      es: {
+        dateFNSKey: 'es',
+        translations: {
+          ...(esTranslations as unknown as any),
+          general: {
+            ...((esTranslations as unknown as any)?.general || {}),
+            // Mensaje singular y neutral para estados vacíos del listado
+            noResults:
+              'No se encontró ningún registro. Puede que aún no exista o que no coincida con los filtros aplicados.',
+          },
+        } as unknown as any,
+      },
     },
   },
   collections: [Users, Media, News, Services, Properties],

@@ -270,77 +270,38 @@ export interface Servicio {
 export interface Propiedade {
   id: string;
   title: string;
-  /**
-   * Identificador para la URL. Si lo dejas vacío se generará desde el título.
-   */
-  slug: string;
-  description?: string | null;
-  /**
-   * Precio en COP
-   */
-  price?: number | null;
-  operation?: ('VENTA' | 'ARRIENDO') | null;
-  type?: ('CASA' | 'APARTAMENTO' | 'LOCAL') | null;
-  city?: string | null;
-  /**
-   * Departamento
-   */
-  state?: string | null;
-  /**
-   * Barrio
-   */
-  neighborhood?: string | null;
-  address?: string | null;
-  /**
-   * m²
-   */
-  area?: number | null;
-  /**
-   * Alcobas
-   */
-  rooms?: number | null;
-  bathrooms?: number | null;
-  garages?: number | null;
-  estrato?: number | null;
-  /**
-   * Antigüedad (años)
-   */
-  years?: number | null;
-  /**
-   * Piso (solo apto)
-   */
-  floor?: number | null;
-  /**
-   * N° pisos (casa)
-   */
-  floors?: number | null;
-  /**
-   * Administración (COP)
-   */
+  Precio: number;
+  'Tipo de Propiedad': 'CASA' | 'APARTAMENTO' | 'LOCAL';
+  ' Venta o Arriendo': 'VENTA' | 'ARRIENDO';
+  Ciudad: string;
+  Departamento: string;
+  Barrio: string;
+  Dirección: string;
+  'Area (m²)': number;
+  Alcobas: number;
+  Baños: number;
+  Garajes: number;
+  Estrato: number;
+  'Antigüedad (años)': number;
+  Piso?: number | null;
+  'N° de Pisos'?: number | null;
   adminFee?: number | null;
+  Descripción: string;
   features?:
     | {
-        feature: string;
+        '': string;
         id?: string | null;
       }[]
     | null;
-  highlighted?: boolean | null;
-  status?: ('DISPONIBLE' | 'RESERVADO' | 'VENDIDO' | 'ARRENDADO') | null;
   /**
-   * Campo libre opcional (ej: “Bogotá, Cundinamarca”)
+   * Sube una o más imágenes para la galería. Cada fila es solo el archivo (más compacto).
    */
-  location?: string | null;
   images?:
     | {
-        image?: (string | null) | Media;
         /**
-         * Texto alternativo (si quieres sobrescribir el alt del media)
+         * Arrastra y suelta o crea/selecciona desde la biblioteca
          */
-        alt?: string | null;
-        /**
-         * URL directa (opcional, si no subes media)
-         */
-        url?: string | null;
+        image: string | Media;
         id?: string | null;
       }[]
     | null;
@@ -534,39 +495,33 @@ export interface ServiciosSelect<T extends boolean = true> {
  */
 export interface PropiedadesSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
-  description?: T;
-  price?: T;
-  operation?: T;
-  type?: T;
-  city?: T;
-  state?: T;
-  neighborhood?: T;
-  address?: T;
-  area?: T;
-  rooms?: T;
-  bathrooms?: T;
-  garages?: T;
-  estrato?: T;
-  years?: T;
-  floor?: T;
-  floors?: T;
+  Precio?: T;
+  'Tipo de Propiedad'?: T;
+  ' Venta o Arriendo'?: T;
+  Ciudad?: T;
+  Departamento?: T;
+  Barrio?: T;
+  Dirección?: T;
+  'Area (m²)'?: T;
+  Alcobas?: T;
+  Baños?: T;
+  Garajes?: T;
+  Estrato?: T;
+  'Antigüedad (años)'?: T;
+  Piso?: T;
+  'N° de Pisos'?: T;
   adminFee?: T;
+  Descripción?: T;
   features?:
     | T
     | {
-        feature?: T;
+        ''?: T;
         id?: T;
       };
-  highlighted?: T;
-  status?: T;
-  location?: T;
   images?:
     | T
     | {
         image?: T;
-        alt?: T;
-        url?: T;
         id?: T;
       };
   updatedAt?: T;

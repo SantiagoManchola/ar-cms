@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
 
-// Utilidad simple para generar slug a partir del título
+// Utilidad para generar slug a partir del título
 const slugify = (value: string) =>
   (value || '')
     .toString()
@@ -24,6 +24,10 @@ const ensureSlug = async ({ data }: { data?: any }) => {
 
 export const Properties: CollectionConfig = {
   slug: 'propiedades',
+  labels: {
+    singular: 'Inmueble',
+    plural: 'Bienes Raices',
+  },
   admin: {
     useAsTitle: 'title',
   },
@@ -39,40 +43,21 @@ export const Properties: CollectionConfig = {
   fields: [
     {
       name: 'title',
+      label: 'Título',
       type: 'text',
       required: true,
     },
     {
-      name: 'slug',
-      type: 'text',
-      required: true,
-      unique: true,
-      admin: {
-        description: 'Identificador para la URL. Si lo dejas vacío se generará desde el título.',
-      },
-    },
-    {
-      name: 'description',
-      type: 'textarea',
-    },
-    {
-      name: 'price',
+      name: 'Precio',
+      label: 'Precio (COP)',
       type: 'number',
+      required: true,
       min: 0,
-      admin: { description: 'Precio en COP' },
     },
     {
-      name: 'operation',
+      name: 'Tipo de Propiedad',
       type: 'select',
-      defaultValue: 'VENTA',
-      options: [
-        { label: 'Venta', value: 'VENTA' },
-        { label: 'Arriendo', value: 'ARRIENDO' },
-      ],
-    },
-    {
-      name: 'type',
-      type: 'select',
+      required: true,
       defaultValue: 'CASA',
       options: [
         { label: 'Casa', value: 'CASA' },
@@ -80,89 +65,103 @@ export const Properties: CollectionConfig = {
         { label: 'Local', value: 'LOCAL' },
       ],
     },
-    // Ubicación
     {
-      type: 'row',
-      fields: [
-        { name: 'city', type: 'text', admin: { width: '33%' } },
-        { name: 'state', type: 'text', admin: { width: '33%', description: 'Departamento' } },
-        { name: 'neighborhood', type: 'text', admin: { width: '33%', description: 'Barrio' } },
-      ],
-    },
-    { name: 'address', type: 'text' },
-    // Métricas
-    {
-      type: 'row',
-      fields: [
-        { name: 'area', type: 'number', min: 0, admin: { width: '25%', description: 'm²' } },
-        { name: 'rooms', type: 'number', min: 0, admin: { width: '25%', description: 'Alcobas' } },
-        { name: 'bathrooms', type: 'number', min: 0, admin: { width: '25%' } },
-        { name: 'garages', type: 'number', min: 0, admin: { width: '25%' } },
+      name: ' Venta o Arriendo',
+      type: 'select',
+      required: true,
+      defaultValue: 'VENTA',
+      options: [
+        { label: 'Venta', value: 'VENTA' },
+        { label: 'Arriendo', value: 'ARRIENDO' },
       ],
     },
     {
       type: 'row',
       fields: [
-        { name: 'estrato', type: 'number', min: 0, admin: { width: '25%' } },
-        { name: 'years', type: 'number', min: 0, admin: { width: '25%', description: 'Antigüedad (años)' } },
-        { name: 'floor', type: 'number', min: 0, admin: { width: '25%', description: 'Piso (solo apto)' } },
-        { name: 'floors', type: 'number', min: 0, admin: { width: '25%', description: 'N° pisos (casa)' } },
+        { name: 'Ciudad', type: 'text', required: true, admin: { width: '33%' } },
+        { name: 'Departamento', type: 'text', required: true, admin: { width: '34%' } },
+        { name: 'Barrio', type: 'text', required: true, admin: { width: '33%' } },
       ],
     },
-    { name: 'adminFee', type: 'number', min: 0, admin: { description: 'Administración (COP)' } },
+    { name: 'Dirección', type: 'text', required: true },
+    {
+      type: 'row',
+      fields: [
+        { name: 'Area (m²)', type: 'number', required: true, min: 0, admin: { width: '25%'} },
+        { name: 'Alcobas', type: 'number', required: true, min: 0, admin: { width: '25%'} },
+        { name: 'Baños', type: 'number', required: true, min: 0, admin: { width: '25%' } },
+        { name: 'Garajes', type: 'number', required: true, min: 0, admin: { width: '25%' } },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        { name: 'Estrato', type: 'number', required: true, min: 0, admin: { width: '33%' } },
+        { name: 'Antigüedad (años)', type: 'number', required: true, min: 0, admin: { width: '34%' } },
+        {
+          name: 'Piso',
+          type: 'number',
+          required: true,
+          min: 0,
+          admin: {
+            width: '33%',
+            condition: (data: any) => (data?.['Tipo de Propiedad'] ?? null) === 'APARTAMENTO',
+          },
+        },
+        {
+          name: 'N° de Pisos',
+          type: 'number',
+          required: true,
+          min: 0,
+          admin: {
+            width: '33%',
+            condition: (data: any) => {
+              const tipo = data?.['Tipo de Propiedad'] ?? null
+              return tipo === 'CASA' || tipo === 'LOCAL'
+            },
+          },
+        },
+      ],
+    },
+    { name: 'adminFee', label: 'Administración (COP)', type: 'number', min: 0 },
+    {
+      name: 'Descripción',
+      required: true,
+      type: 'textarea',
+    },
     {
       name: 'features',
       label: 'Características',
       type: 'array',
       labels: {
-        singular: 'característica',
-        plural: 'características',
+        singular: 'Característica',
+        plural: 'Características',
       },
       fields: [
-        { name: 'feature', type: 'text', required: true },
+        { name: '', type: 'text', required: true},
       ],
-    },
-    {
-      name: 'highlighted',
-      label: 'Destacado',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
-      name: 'status',
-      type: 'select',
-      defaultValue: 'DISPONIBLE',
-      options: [
-        { label: 'Disponible', value: 'DISPONIBLE' },
-        { label: 'Reservado', value: 'RESERVADO' },
-        { label: 'Vendido', value: 'VENDIDO' },
-        { label: 'Arrendado', value: 'ARRENDADO' },
-      ],
-    },
-    // Compatibilidad con campo libre de ubicación si lo prefieres
-    {
-      name: 'location',
-      type: 'text',
-      admin: { description: 'Campo libre opcional (ej: “Bogotá, Cundinamarca”)' },
     },
     {
       name: 'images',
+      label: 'Imágenes de la propiedad',
       type: 'array',
+      labels: {
+        singular: 'Imagen',
+        plural: 'Imágenes',
+      },
+      admin: {
+        description: 'Sube una o más imágenes para la galería. Cada fila es solo el archivo (más compacto).',
+        initCollapsed: true,
+      },
       fields: [
         {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
-        },
-        {
-          name: 'alt',
-          type: 'text',
-          admin: { description: 'Texto alternativo (si quieres sobrescribir el alt del media)' },
-        },
-        {
-          name: 'url',
-          type: 'text',
-          admin: { description: 'URL directa (opcional, si no subes media)' },
+          required: true,
+          admin: {
+            description: 'Arrastra y suelta o crea/selecciona desde la biblioteca',
+          },
         },
       ],
     },
