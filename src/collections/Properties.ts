@@ -138,7 +138,7 @@ export const Properties: CollectionConfig = {
         plural: 'Características',
       },
       fields: [
-        { name: '', type: 'text', required: true},
+        { name: 'value', type: 'text', required: true},
       ],
     },
     {

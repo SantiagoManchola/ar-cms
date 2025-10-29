@@ -289,7 +289,7 @@ export interface Propiedade {
   Descripción: string;
   features?:
     | {
-        '': string;
+        value: string;
         id?: string | null;
       }[]
     | null;
@@ -515,7 +515,7 @@ export interface PropiedadesSelect<T extends boolean = true> {
   features?:
     | T
     | {
-        ''?: T;
+        value?: T;
         id?: T;
       };
   images?:
