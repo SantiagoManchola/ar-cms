@@ -11,10 +11,12 @@ const slugify = (value: string) =>
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
 
-const ensureSlug = async ({ data }: { data?: any }) => {
+const ensureSlug = async ({ data, originalDoc }: { data?: any; originalDoc?: any }) => {
   if (!data) return data
-  if (!data.slug && data.title) {
-    data.slug = slugify(data.title)
+  const title = data.title ?? originalDoc?.title
+  if (typeof title === 'string' && title.trim() !== '') {
+    data.slug = slugify(title)
+    return data
   }
   if (typeof data.slug === 'string') {
     data.slug = slugify(data.slug)
@@ -53,7 +55,9 @@ export const Properties: CollectionConfig = {
       required: true,
       unique: true,
       admin: {
-        description: 'Identificador para la URL. Si lo dejas vacío se generará desde el título.',
+        description: 'El slug se genera automáticamente desde el título.',
+        readOnly: true,
+        hidden: true,
       },
     },
     {
@@ -170,7 +174,7 @@ export const Properties: CollectionConfig = {
       },
       admin: {
         description:
-          'Sube una o más imágenes para la galería. Cada fila es solo el archivo (más compacto).',
+          'Sube una o más imágenes para la galería.',
         initCollapsed: true,
       },
       fields: [
@@ -184,20 +188,6 @@ export const Properties: CollectionConfig = {
           },
         },
       ],
-    },
-    {
-      name: 'status',
-      label: 'Estado',
-      type: 'select',
-      required: false,
-      defaultValue: 'DISPONIBLE',
-      options: [
-        { label: 'Disponible', value: 'DISPONIBLE' },
-        { label: 'Reservado', value: 'RESERVADO' },
-        { label: 'Vendido', value: 'VENDIDO' },
-        { label: 'Arrendado', value: 'ARRENDADO' },
-      ],
-      admin: { position: 'sidebar' },
     },
   ],
   timestamps: true,

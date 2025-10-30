@@ -270,31 +270,35 @@ export interface Servicio {
 export interface Propiedade {
   id: string;
   title: string;
-  Precio: number;
-  'Tipo de Propiedad': 'CASA' | 'APARTAMENTO' | 'LOCAL';
-  ' Venta o Arriendo': 'VENTA' | 'ARRIENDO';
-  Ciudad: string;
-  Departamento: string;
-  Barrio: string;
-  Dirección: string;
-  'Area (m²)': number;
-  Alcobas: number;
-  Baños: number;
-  Garajes: number;
-  Estrato: number;
-  'Antigüedad (años)': number;
-  Piso?: number | null;
-  'N° de Pisos'?: number | null;
+  /**
+   * El slug se genera automáticamente desde el título.
+   */
+  slug: string;
+  price: number;
+  type: 'CASA' | 'APARTAMENTO' | 'LOCAL';
+  operation: 'VENTA' | 'ARRIENDO';
+  city: string;
+  state: string;
+  neighborhood: string;
+  address: string;
+  area: number;
+  rooms: number;
+  bathrooms: number;
+  garages: number;
+  estrato: number;
+  years: number;
+  floor?: number | null;
+  floors?: number | null;
   adminFee?: number | null;
-  Descripción: string;
+  description: string;
   features?:
     | {
-        value: string;
+        feature: string;
         id?: string | null;
       }[]
     | null;
   /**
-   * Sube una o más imágenes para la galería. Cada fila es solo el archivo (más compacto).
+   * Sube una o más imágenes para la galería.
    */
   images?:
     | {
@@ -495,27 +499,28 @@ export interface ServiciosSelect<T extends boolean = true> {
  */
 export interface PropiedadesSelect<T extends boolean = true> {
   title?: T;
-  Precio?: T;
-  'Tipo de Propiedad'?: T;
-  ' Venta o Arriendo'?: T;
-  Ciudad?: T;
-  Departamento?: T;
-  Barrio?: T;
-  Dirección?: T;
-  'Area (m²)'?: T;
-  Alcobas?: T;
-  Baños?: T;
-  Garajes?: T;
-  Estrato?: T;
-  'Antigüedad (años)'?: T;
-  Piso?: T;
-  'N° de Pisos'?: T;
+  slug?: T;
+  price?: T;
+  type?: T;
+  operation?: T;
+  city?: T;
+  state?: T;
+  neighborhood?: T;
+  address?: T;
+  area?: T;
+  rooms?: T;
+  bathrooms?: T;
+  garages?: T;
+  estrato?: T;
+  years?: T;
+  floor?: T;
+  floors?: T;
   adminFee?: T;
-  Descripción?: T;
+  description?: T;
   features?:
     | T
     | {
-        value?: T;
+        feature?: T;
         id?: T;
       };
   images?:
