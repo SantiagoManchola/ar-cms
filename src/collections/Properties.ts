@@ -48,6 +48,15 @@ export const Properties: CollectionConfig = {
       required: true,
     },
     {
+      name: 'slug',
+      type: 'text',
+      required: true,
+      unique: true,
+      admin: {
+        description: 'Identificador para la URL. Si lo dejas vacío se generará desde el título.',
+      },
+    },
+    {
       name: 'Precio',
       label: 'Precio (COP)',
       type: 'number',
@@ -87,8 +96,8 @@ export const Properties: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'Area (m²)', type: 'number', required: true, min: 0, admin: { width: '25%'} },
-        { name: 'Alcobas', type: 'number', required: true, min: 0, admin: { width: '25%'} },
+        { name: 'Area (m²)', type: 'number', required: true, min: 0, admin: { width: '25%' } },
+        { name: 'Alcobas', type: 'number', required: true, min: 0, admin: { width: '25%' } },
         { name: 'Baños', type: 'number', required: true, min: 0, admin: { width: '25%' } },
         { name: 'Garajes', type: 'number', required: true, min: 0, admin: { width: '25%' } },
       ],
@@ -97,7 +106,13 @@ export const Properties: CollectionConfig = {
       type: 'row',
       fields: [
         { name: 'Estrato', type: 'number', required: true, min: 0, admin: { width: '33%' } },
-        { name: 'Antigüedad (años)', type: 'number', required: true, min: 0, admin: { width: '34%' } },
+        {
+          name: 'Antigüedad (años)',
+          type: 'number',
+          required: true,
+          min: 0,
+          admin: { width: '34%' },
+        },
         {
           name: 'Piso',
           type: 'number',
@@ -137,9 +152,7 @@ export const Properties: CollectionConfig = {
         singular: 'Característica',
         plural: 'Características',
       },
-      fields: [
-        { name: 'value', type: 'text', required: true},
-      ],
+      fields: [{ name: 'value', type: 'text', required: true }],
     },
     {
       name: 'images',
@@ -150,7 +163,8 @@ export const Properties: CollectionConfig = {
         plural: 'Imágenes',
       },
       admin: {
-        description: 'Sube una o más imágenes para la galería. Cada fila es solo el archivo (más compacto).',
+        description:
+          'Sube una o más imágenes para la galería. Cada fila es solo el archivo (más compacto).',
         initCollapsed: true,
       },
       fields: [
