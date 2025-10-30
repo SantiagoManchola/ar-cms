@@ -57,14 +57,15 @@ export const Properties: CollectionConfig = {
       },
     },
     {
-      name: 'Precio',
+      name: 'price',
       label: 'Precio (COP)',
       type: 'number',
       required: true,
       min: 0,
     },
     {
-      name: 'Tipo de Propiedad',
+      name: 'type',
+      label: 'Tipo de Propiedad',
       type: 'select',
       required: true,
       defaultValue: 'CASA',
@@ -75,7 +76,8 @@ export const Properties: CollectionConfig = {
       ],
     },
     {
-      name: ' Venta o Arriendo',
+      name: 'operation',
+      label: 'Venta o Arriendo',
       type: 'select',
       required: true,
       defaultValue: 'VENTA',
@@ -87,51 +89,54 @@ export const Properties: CollectionConfig = {
     {
       type: 'row',
       fields: [
-        { name: 'Ciudad', type: 'text', required: true, admin: { width: '33%' } },
-        { name: 'Departamento', type: 'text', required: true, admin: { width: '34%' } },
-        { name: 'Barrio', type: 'text', required: true, admin: { width: '33%' } },
+        { name: 'city', label: 'Ciudad', type: 'text', required: true, admin: { width: '33%' } },
+        { name: 'state', label: 'Departamento', type: 'text', required: true, admin: { width: '34%' } },
+        { name: 'neighborhood', label: 'Barrio', type: 'text', required: true, admin: { width: '33%' } },
       ],
     },
-    { name: 'Dirección', type: 'text', required: true },
+    { name: 'address', label: 'Dirección', type: 'text', required: true },
     {
       type: 'row',
       fields: [
-        { name: 'Area (m²)', type: 'number', required: true, min: 0, admin: { width: '25%' } },
-        { name: 'Alcobas', type: 'number', required: true, min: 0, admin: { width: '25%' } },
-        { name: 'Baños', type: 'number', required: true, min: 0, admin: { width: '25%' } },
-        { name: 'Garajes', type: 'number', required: true, min: 0, admin: { width: '25%' } },
+        { name: 'area', label: 'Área (m²)', type: 'number', required: true, min: 0, admin: { width: '25%' } },
+        { name: 'rooms', label: 'Alcobas', type: 'number', required: true, min: 0, admin: { width: '25%' } },
+        { name: 'bathrooms', label: 'Baños', type: 'number', required: true, min: 0, admin: { width: '25%' } },
+        { name: 'garages', label: 'Garajes', type: 'number', required: true, min: 0, admin: { width: '25%' } },
       ],
     },
     {
       type: 'row',
       fields: [
-        { name: 'Estrato', type: 'number', required: true, min: 0, admin: { width: '33%' } },
+        { name: 'estrato', label: 'Estrato', type: 'number', required: true, min: 0, admin: { width: '33%' } },
         {
-          name: 'Antigüedad (años)',
+          name: 'years',
+          label: 'Antigüedad (años)',
           type: 'number',
           required: true,
           min: 0,
           admin: { width: '34%' },
         },
         {
-          name: 'Piso',
+          name: 'floor',
+          label: 'Piso',
           type: 'number',
           required: true,
           min: 0,
           admin: {
             width: '33%',
-            condition: (data: any) => (data?.['Tipo de Propiedad'] ?? null) === 'APARTAMENTO',
+            condition: (data: any) => (data?.['type'] ?? data?.['Tipo de Propiedad'] ?? null) === 'APARTAMENTO',
           },
         },
         {
-          name: 'N° de Pisos',
+          name: 'floors',
+          label: 'N° de Pisos',
           type: 'number',
           required: true,
           min: 0,
           admin: {
             width: '33%',
             condition: (data: any) => {
-              const tipo = data?.['Tipo de Propiedad'] ?? null
+              const tipo = data?.['type'] ?? data?.['Tipo de Propiedad'] ?? null
               return tipo === 'CASA' || tipo === 'LOCAL'
             },
           },
@@ -140,7 +145,8 @@ export const Properties: CollectionConfig = {
     },
     { name: 'adminFee', label: 'Administración (COP)', type: 'number', min: 0 },
     {
-      name: 'Descripción',
+      name: 'description',
+      label: 'Descripción',
       required: true,
       type: 'textarea',
     },
@@ -152,7 +158,7 @@ export const Properties: CollectionConfig = {
         singular: 'Característica',
         plural: 'Características',
       },
-      fields: [{ name: 'value', type: 'text', required: true }],
+      fields: [{ name: 'feature', label: 'Característica', type: 'text', required: true }],
     },
     {
       name: 'images',
@@ -178,6 +184,20 @@ export const Properties: CollectionConfig = {
           },
         },
       ],
+    },
+    {
+      name: 'status',
+      label: 'Estado',
+      type: 'select',
+      required: false,
+      defaultValue: 'DISPONIBLE',
+      options: [
+        { label: 'Disponible', value: 'DISPONIBLE' },
+        { label: 'Reservado', value: 'RESERVADO' },
+        { label: 'Vendido', value: 'VENDIDO' },
+        { label: 'Arrendado', value: 'ARRENDADO' },
+      ],
+      admin: { position: 'sidebar' },
     },
   ],
   timestamps: true,
