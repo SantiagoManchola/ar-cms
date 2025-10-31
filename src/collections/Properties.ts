@@ -112,7 +112,7 @@ export const Properties: CollectionConfig = {
         { name: 'neighborhood', label: 'Barrio', type: 'text', required: true, admin: { width: '33%' } },
       ],
     },
-    { name: 'address', label: 'Dirección', type: 'text', required: true },
+    { name: 'address', label: 'Dirección', type: 'text' },
     {
       type: 'row',
       fields: [
