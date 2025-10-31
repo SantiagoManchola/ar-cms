@@ -1,9 +1,36 @@
 import type { CollectionConfig } from 'payload'
 
+// Utilidad para generar slug a partir del título (igual que en Properties)
+const slugify = (value: string) =>
+  (value || '')
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+const ensureSlug = async ({ data, originalDoc }: { data?: any; originalDoc?: any }) => {
+  if (!data) return data
+  const title = data.title ?? originalDoc?.title
+  if (typeof title === 'string' && title.trim() !== '') {
+    data.slug = slugify(title)
+    return data
+  }
+  if (typeof data.slug === 'string') {
+    data.slug = slugify(data.slug)
+  }
+  return data
+}
+
 export const News: CollectionConfig = {
   slug: 'noticias',
   admin: {
     useAsTitle: 'title',
+  },
+  hooks: {
+    beforeValidate: [ensureSlug],
   },
   access: {
     read: () => true,
@@ -20,10 +47,12 @@ export const News: CollectionConfig = {
     {
       name: 'slug',
       type: 'text',
-      required: true,
+      required: false,
       unique: true,
       admin: {
-        description: 'URL slug for the news article (e.g., "understanding-digital-legal-challengesss")',
+        description: 'El slug se genera automáticamente desde el título.',
+        readOnly: true,
+        hidden: true,
       },
     },
     {
