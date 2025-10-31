@@ -297,18 +297,7 @@ export interface Propiedade {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Sube una o más imágenes para la galería.
-   */
-  images?:
-    | {
-        /**
-         * Arrastra y suelta o crea/selecciona desde la biblioteca
-         */
-        image: string | Media;
-        id?: string | null;
-      }[]
-    | null;
+  images?: (string | Media)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -523,12 +512,7 @@ export interface PropiedadesSelect<T extends boolean = true> {
         feature?: T;
         id?: T;
       };
-  images?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
+  images?: T;
   updatedAt?: T;
   createdAt?: T;
 }

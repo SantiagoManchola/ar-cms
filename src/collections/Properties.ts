@@ -32,9 +32,23 @@ export const Properties: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
+    defaultColumns: ['title', 'price', 'type', 'operation', 'city'],
   },
   hooks: {
-    beforeValidate: [ensureSlug],
+    beforeValidate: [ensureSlug, async ({ data }) => {
+      if (!data) return data
+      const imgs = data.images
+      if (Array.isArray(imgs) && imgs.some((it: any) => it && typeof it === 'object' && 'image' in it)) {
+        data.images = imgs
+          .map((it: any) => {
+            const v = it?.image ?? it
+            if (v && typeof v === 'object') return v.id ?? v
+            return v
+          })
+          .filter(Boolean)
+      }
+      return data
+    }],
   },
   access: {
     read: () => true,
@@ -167,27 +181,12 @@ export const Properties: CollectionConfig = {
     {
       name: 'images',
       label: 'Imágenes de la propiedad',
-      type: 'array',
-      labels: {
-        singular: 'Imagen',
-        plural: 'Imágenes',
-      },
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
       admin: {
-        description:
-          'Sube una o más imágenes para la galería.',
-        initCollapsed: true,
+        description: 'Puedes arrastrar varias imágenes y se adjuntarán todas automáticamente.',
       },
-      fields: [
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          required: true,
-          admin: {
-            description: 'Arrastra y suelta o crea/selecciona desde la biblioteca',
-          },
-        },
-      ],
     },
   ],
   timestamps: true,
