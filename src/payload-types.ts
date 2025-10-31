@@ -187,6 +187,30 @@ export interface Media {
       filesize?: number | null;
       filename?: string | null;
     };
+    mobile?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    desktop?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    full?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
   };
 }
 /**
@@ -197,9 +221,9 @@ export interface Noticia {
   id: string;
   title: string;
   /**
-   * URL slug for the news article (e.g., "understanding-digital-legal-challengesss")
+   * El slug se genera automáticamente desde el título.
    */
-  slug: string;
+  slug?: string | null;
   /**
    * Short description/excerpt for the news card
    */
@@ -280,7 +304,7 @@ export interface Propiedade {
   city: string;
   state: string;
   neighborhood: string;
-  address: string;
+  address?: string | null;
   area: number;
   rooms: number;
   bathrooms: number;
@@ -297,6 +321,9 @@ export interface Propiedade {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Puedes arrastrar varias imágenes y se adjuntarán todas automáticamente.
+   */
   images?: (string | Media)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -434,6 +461,36 @@ export interface MediaSelect<T extends boolean = true> {
               filename?: T;
             };
         tablet?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        mobile?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        desktop?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        full?:
           | T
           | {
               url?: T;
