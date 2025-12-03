@@ -119,7 +119,7 @@ export const Properties: CollectionConfig = {
         { name: 'neighborhood', label: 'Barrio', type: 'text', required: true, admin: { width: '33%' } },
       ],
     },
-    { name: 'address', label: 'Dirección', type: 'text' },
+    { name: 'address', label: 'Dirección (Opcional)', type: 'text' },
     {
       type: 'row',
       fields: [
@@ -168,7 +168,7 @@ export const Properties: CollectionConfig = {
         },
       ],
     },
-    { name: 'adminFee', label: 'Administración (COP)', type: 'number', min: 0 },
+    { name: 'adminFee', label: 'Administración (COP) (Opcional)', type: 'number', min: 0 },
     {
       name: 'description',
       label: 'Descripción',
