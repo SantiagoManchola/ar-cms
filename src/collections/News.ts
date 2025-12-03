@@ -26,8 +26,13 @@ const ensureSlug = async ({ data, originalDoc }: { data?: any; originalDoc?: any
 
 export const News: CollectionConfig = {
   slug: 'noticias',
+  labels: {
+    singular: 'Noticia',
+    plural: 'Noticias',
+  },
   admin: {
     useAsTitle: 'title',
+    defaultColumns: ['title', 'description', 'contenido', 'backgroundImage'],
   },
   hooks: {
     beforeValidate: [ensureSlug],
@@ -41,7 +46,20 @@ export const News: CollectionConfig = {
   fields: [
     {
       name: 'title',
+      label: 'Título',
       type: 'text',
+      required: true,
+    },
+    {
+      name: 'description',
+      label: 'Descripción corta',
+      type: 'textarea',
+      required: true,
+    },
+    {
+      name: 'contenido',
+      label: 'Contenido',
+      type: 'richText',
       required: true,
     },
     {
@@ -56,37 +74,25 @@ export const News: CollectionConfig = {
       },
     },
     {
-      name: 'description',
-      type: 'textarea',
-      required: true,
-      admin: {
-        description: 'Short description/excerpt for the news card',
-      },
-    },
-    {
-      name: 'contenido',
-      type: 'richText',
-      required: true,
-      admin: {
-        description: 'Full content of the news article',
-      },
-    },
-    {
-      name: 'backgroundImage',
-      type: 'upload',
-      relationTo: 'media', 
-      required: true,
-      admin: {
-        description: 'Featured image for the news card',
-      },
-    },
-    {
-      name: 'publishedAt',
-      type: 'date',
-      required: true,
-      admin: {
-        description: 'Publication date',
-      },
+      type: 'row',
+      fields: [
+        {
+          name: 'backgroundImage',
+          label: 'Imagen destacada',
+          type: 'upload',
+          relationTo: 'media', 
+          required: true,
+          admin: { width: '50%' },
+        },
+        {
+          name: 'publishedAt',
+          label: 'Fecha de publicación',
+          type: 'date',
+          required: true,
+          admin: {
+          width: '50%' },
+        },
+      ],
     },
   ],
 }

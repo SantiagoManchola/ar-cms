@@ -162,56 +162,6 @@ export interface Media {
   height?: number | null;
   focalX?: number | null;
   focalY?: number | null;
-  sizes?: {
-    thumbnail?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    card?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    tablet?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    mobile?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    desktop?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-    full?: {
-      url?: string | null;
-      width?: number | null;
-      height?: number | null;
-      mimeType?: string | null;
-      filesize?: number | null;
-      filename?: string | null;
-    };
-  };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -220,17 +170,7 @@ export interface Media {
 export interface Noticia {
   id: string;
   title: string;
-  /**
-   * El slug se genera automáticamente desde el título.
-   */
-  slug?: string | null;
-  /**
-   * Short description/excerpt for the news card
-   */
   description: string;
-  /**
-   * Full content of the news article
-   */
   contenido: {
     root: {
       type: string;
@@ -247,12 +187,10 @@ export interface Noticia {
     [k: string]: unknown;
   };
   /**
-   * Featured image for the news card
+   * El slug se genera automáticamente desde el título.
    */
+  slug?: string | null;
   backgroundImage: string | Media;
-  /**
-   * Publication date
-   */
   publishedAt: string;
   updatedAt: string;
   createdAt: string;
@@ -265,19 +203,16 @@ export interface Servicio {
   id: string;
   _order?: string | null;
   nombre: string;
-  /**
-   * Sube una imagen para el icono del servicio
-   */
+  titulo_banner: string;
+  descripcion_banner?: string | null;
+  imagen_banner: string | Media;
   icon: string | Media;
   /**
-   * URL amigable para el servicio (ej: "diseno-web")
+   * Se genera automáticamente desde el nombre del servicio.
    */
   slug: string;
   descripcion_general: string;
   descripcion: string;
-  titulo_banner: string;
-  descripcion_banner?: string | null;
-  imagen_banner: string | Media;
   areas_especializacion?:
     | {
         area: string;
@@ -437,70 +372,6 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-  sizes?:
-    | T
-    | {
-        thumbnail?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        card?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        tablet?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        mobile?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        desktop?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-        full?:
-          | T
-          | {
-              url?: T;
-              width?: T;
-              height?: T;
-              mimeType?: T;
-              filesize?: T;
-              filename?: T;
-            };
-      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -508,9 +379,9 @@ export interface MediaSelect<T extends boolean = true> {
  */
 export interface NoticiasSelect<T extends boolean = true> {
   title?: T;
-  slug?: T;
   description?: T;
   contenido?: T;
+  slug?: T;
   backgroundImage?: T;
   publishedAt?: T;
   updatedAt?: T;
@@ -523,13 +394,13 @@ export interface NoticiasSelect<T extends boolean = true> {
 export interface ServiciosSelect<T extends boolean = true> {
   _order?: T;
   nombre?: T;
+  titulo_banner?: T;
+  descripcion_banner?: T;
+  imagen_banner?: T;
   icon?: T;
   slug?: T;
   descripcion_general?: T;
   descripcion?: T;
-  titulo_banner?: T;
-  descripcion_banner?: T;
-  imagen_banner?: T;
   areas_especializacion?:
     | T
     | {

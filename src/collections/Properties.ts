@@ -82,26 +82,33 @@ export const Properties: CollectionConfig = {
       min: 0,
     },
     {
-      name: 'type',
-      label: 'Tipo de Propiedad',
-      type: 'select',
-      required: true,
-      defaultValue: 'CASA',
-      options: [
-        { label: 'Casa', value: 'CASA' },
-        { label: 'Apartamento', value: 'APARTAMENTO' },
-        { label: 'Local', value: 'LOCAL' },
-      ],
-    },
-    {
-      name: 'operation',
-      label: 'Venta o Arriendo',
-      type: 'select',
-      required: true,
-      defaultValue: 'VENTA',
-      options: [
-        { label: 'Venta', value: 'VENTA' },
-        { label: 'Arriendo', value: 'ARRIENDO' },
+      type: 'row',
+      fields: [
+        {
+          name: 'type',
+          label: 'Tipo de Propiedad',
+          type: 'select',
+          required: true,
+          defaultValue: 'CASA',
+          options: [
+            { label: 'Casa', value: 'CASA' },
+            { label: 'Apartamento', value: 'APARTAMENTO' },
+            { label: 'Local', value: 'LOCAL' },
+          ],
+          admin: { width: '50%' },
+        },
+        {
+          name: 'operation',
+          label: 'Venta o Arriendo',
+          type: 'select',
+          required: true,
+          defaultValue: 'VENTA',
+          options: [
+            { label: 'Venta', value: 'VENTA' },
+            { label: 'Arriendo', value: 'ARRIENDO' },
+          ],
+          admin: { width: '50%' },
+        },
       ],
     },
     {

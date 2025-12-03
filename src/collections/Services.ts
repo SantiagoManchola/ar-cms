@@ -13,12 +13,39 @@ export interface ServiceAPI {
   areas_especializacion: string[]
 }
 
+// Utilidad para generar slug a partir del nombre (igual que en Properties)
+const slugify = (value: string) =>
+  (value || '')
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/\p{Diacritic}/gu, '')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+
+const ensureSlug = async ({ data, originalDoc }: { data?: any; originalDoc?: any }) => {
+  if (!data) return data
+  const nombre = data.nombre ?? originalDoc?.nombre
+  if (typeof nombre === 'string' && nombre.trim() !== '') {
+    data.slug = slugify(nombre)
+    return data
+  }
+  if (typeof data.slug === 'string') {
+    data.slug = slugify(data.slug)
+  }
+  return data
+}
+
 export const Services: CollectionConfig = {
   slug: 'servicios',
   orderable: true,
   defaultSort: 'order',
   admin: {
     useAsTitle: 'nombre',
+  },
+  hooks: {
+    beforeValidate: [ensureSlug],
   },
   access: {
     read: () => true,
@@ -34,14 +61,44 @@ export const Services: CollectionConfig = {
       label: 'Nombre del Servicio',
     },
     {
-      name: 'icon',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
-      label: 'Icono del Servicio (Imagen)',
-      admin: {
-        description: 'Sube una imagen para el icono del servicio',
-      },
+      type: 'row',
+      fields: [
+        {
+          name: 'titulo_banner',
+          type: 'text',
+          required: true,
+          label: 'Título del Banner',
+          admin: { width: '50%' },
+        },
+        {
+          name: 'descripcion_banner',
+          type: 'text',
+          required: false,
+          label: 'Descripción del Banner (Opcional)',
+          admin: { width: '50%' },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'imagen_banner',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          label: 'Imagen del Banner',
+          admin: { width: '50%' },
+        },
+        {
+          name: 'icon',
+          type: 'upload',
+          relationTo: 'media',
+          required: true,
+          label: 'Icono del Servicio (Imagen PNG)',
+          admin: { width: '50%' },
+        },
+      ],
     },
     {
       name: 'slug',
@@ -50,40 +107,31 @@ export const Services: CollectionConfig = {
       label: 'Slug (URL amigable)',
       unique: true,
       admin: {
-        description: 'URL amigable para el servicio (ej: "diseno-web")',
+        description: 'Se genera automáticamente desde el nombre del servicio.',
+        readOnly: true,
+        hidden: true,
       },
     },
     {
-      name: 'descripcion_general',
-      type: 'textarea',
-      required: true,
-      label: 'Descripción General del Servicio',
+      type: 'row',
+      fields: [
+        {
+          name: 'descripcion_general',
+          type: 'textarea',
+          required: true,
+          label: 'Descripción Corta del Servicio',
+          admin: { width: '50%' },
+        },
+        {
+          name: 'descripcion',
+          type: 'textarea',
+          required: true,
+          label: 'Descripción Detallada del Servicio',
+          admin: { width: '50%' },
+        },
+      ],
     },
-    {
-      name: 'descripcion',
-      type: 'textarea',
-      required: true,
-      label: 'Descripción Detallada del Servicio',
-    },
-    {
-      name: 'titulo_banner',
-      type: 'text',
-      required: true,
-      label: 'Título del Banner',
-    },
-    {
-      name: 'descripcion_banner',
-      type: 'textarea',
-      required: false,
-      label: 'Descripción del Banner (Opcional)',
-    },
-    {
-      name: 'imagen_banner',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
-      label: 'Imagen del Banner',
-    },
+    
 
     // Áreas de especialización
     {
@@ -97,7 +145,7 @@ export const Services: CollectionConfig = {
           name: 'area',
           type: 'text',
           required: true,
-          label: 'Área',
+          label: 'Área de Especialización',
         },
       ],
     },
